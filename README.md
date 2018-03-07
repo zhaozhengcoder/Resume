@@ -31,6 +31,77 @@
     
         2. 使用lua脚本开发web应用，更多的是看重lua语言效率比较高的优点，但是使用lua进行web开发并不像php一样有很多成熟的内置函数和库，比如进行md5加密的函数和发送http请求的函数，甚至是ip_to_long这样的函数，lua里面都需要自己来实现。
 
+    * nginx+lua 的性能
+
+        在openresty的官网文档里面，https://openresty.org/cn/benchmark.html 作者也给出解释说openresty比nginx + php的方式好。如下图所示：
+
+        ![官网里面的解释](2.png)
+
+        下面的是项目完成后，我用Apache AB压测的结果
+        ```
+        ab -n 50000 -c 10 -p ./post.txt -T application/x-www-form-urlencoded "http://127.0.0.1/abpost"
+
+        This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+        Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+        Licensed to The Apache Software Foundation, http://www.apache.org/
+
+        Benchmarking 127.0.0.1 (be patient)
+        Completed 5000 requests
+        Completed 10000 requests
+        Completed 15000 requests
+        Completed 20000 requests
+        Completed 25000 requests
+        Completed 30000 requests
+        Completed 35000 requests
+        Completed 40000 requests
+        Completed 45000 requests
+        Completed 50000 requests
+        Finished 50000 requests
+
+
+        Server Software:        openresty/1.13.6.1
+        Server Hostname:        127.0.0.1
+        Server Port:            80
+
+        Document Path:          /abpost
+        Document Length:        175 bytes
+
+        Concurrency Level:      10
+        Time taken for tests:   4.303 seconds
+        Complete requests:      50000
+        Failed requests:        0
+        Non-2xx responses:      50000
+        Total transferred:      16550000 bytes
+        Total body sent:        8800000
+        HTML transferred:       8750000 bytes
+        Requests per second:    11619.96 [#/sec] (mean)
+        Time per request:       0.861 [ms] (mean)
+        Time per request:       0.086 [ms] (mean, across all concurrent requests)
+        Transfer rate:          3756.06 [Kbytes/sec] received
+                                1997.18 kb/s sent
+                                5753.24 kb/s total
+
+        Connection Times (ms)
+                    min  mean[+/-sd] median   max
+        Connect:        0    0   0.1      0      14
+        Processing:     0    1   1.5      1      65
+        Waiting:        0    1   1.5      1      65
+        Total:          0    1   1.5      1      65
+
+        Percentage of the requests served within a certain time (ms)
+        50%      1
+        66%      1
+        75%      1
+        80%      1
+        90%      1
+        95%      1
+        98%      2
+        99%      3
+        100%     65 (longest request)
+        ```
+        openresty的结果是10k/s ，比php的提高了30%。
+
+
 ### 思科 cisco
 
 * Wireshark插件
