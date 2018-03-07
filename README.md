@@ -37,7 +37,7 @@
 
         ![官网里面的解释](2.png)
 
-        下面的是项目完成后，我用Apache AB压测的结果
+        下面的是项目完成后，我用Apache AB压测的结果，如下所示：
         ```
         ab -n 50000 -c 10 -p ./post.txt -T application/x-www-form-urlencoded "http://127.0.0.1/abpost"
 
@@ -99,7 +99,7 @@
         99%      3
         100%     65 (longest request)
         ```
-        openresty的结果是10k/s ，比php的提高了30%。
+        openresty的结果是10k/s ，比原来用php的实现方式提高了大约30%。
 
 
 ### 思科 cisco
